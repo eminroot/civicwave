@@ -1,0 +1,3 @@
+# secrets and the upload staging folder never go into git
+server.env
+.stage/

@@ -1,0 +1,16 @@
+# CivicWave (AIDIN app API + Zəngəzur command center) on the Contabo server, in /opt/civicwave.
+# The server has no npm dependencies, so the stock Node image runs the code straight from the folder.
+services:
+  civicwave:
+    image: node:24-slim
+    container_name: civicwave
+    restart: unless-stopped
+    user: "1000:1000"
+    working_dir: /app/server
+    command: ["node", "--disable-warning=ExperimentalWarning", "src/server.js"]
+    environment:
+      TZ: Asia/Baku
+    volumes:
+      - ./:/app
+    ports:
+      - "127.0.0.1:8120:8090"

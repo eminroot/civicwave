@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#ebeff5" />
+<title>Zəngəzur · Komanda Mərkəzi</title>
+<meta name="description" content="Xətai rayonu: vətəndaş müraciətlərinin idarəetmə paneli" />
+<link rel="icon" type="image/svg+xml" href="gerb.svg" />
+
+<!-- The Veritas type system: Inter Tight carries every line, Syne draws the
+     wordmark, IBM Plex Mono the machine text (ids, coordinates). Separate
+     requests so a failure on one cannot take the others down. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+      integrity="sha384-MinO0mNliZ3vwppuPOUnGa+iq619pfMhLVUXfC4LHwSCvF9H+6P/KO4Q7qBOYV5V" crossorigin="anonymous" />
+<link rel="stylesheet" href="styles.css?v=20261113c" />
+</head>
+<body>
+
+<div class="app-shell" id="app" hidden>
+  <nav class="rail" id="rail" aria-label="Əsas menyu" data-tour="nav"></nav>
+
+  <div class="main-col">
+    <header class="topbar" id="topbar">
+      <a class="brand" href="./" data-home aria-label="Zəngəzur, ana səhifə">
+        <img class="brand__gerb" src="gerb.svg" alt="" />
+        <span class="brand__name" aria-hidden="true">Z<span class="schwa">e</span>ng<span class="schwa">e</span>zur</span>
+      </a>
+
+      <div class="topbar__search-wrap" id="searchWrap">
+        <label class="topbar__search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="globalSearch" type="text" placeholder="Müraciət, ünvan və ya bölmə axtarın…" autocomplete="off" aria-label="Axtarış" />
+          <span class="topbar__kbd" id="searchKbd">/</span>
+        </label>
+        <div class="popover popover--search" id="searchPop" hidden></div>
+      </div>
+
+      <div class="topbar-meta" id="topMeta"></div>
+    </header>
+
+    <main class="page" id="view" tabindex="-1"></main>
+  </div>
+
+  <nav class="mobilebar" id="mobilebar" aria-label="Əsas menyu"></nav>
+</div>
+
+<div id="signin" hidden></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+        integrity="sha384-SYKAG6cglRMN0RVvhNeBY0r3FYKNOJtznwA0v7B5Vp9tr31xAHsZC0DqkQ/pZDmj" crossorigin="anonymous"></script>
+<script src="map-regions.js"></script>
+<script src="map.js?v=20261113"></script>
+<script src="api.js?v=20261113b"></script>
+<script src="app.js?v=20261113c"></script>
+</body>
+</html>

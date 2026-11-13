@@ -1,0 +1,8 @@
+# The SQLite database and the uploaded photos
+data/
+
+# Local settings and keys
+.env
+
+node_modules/
+*.log

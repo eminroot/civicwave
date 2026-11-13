@@ -1,0 +1,49 @@
+# ============================================================
+# CivicWave — root .gitignore
+# ============================================================
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Secrets & local environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Web dashboard local config (copied from the *.example.js templates)
+ZengeZurwebsite/firebase-config.js
+ZengeZurwebsite/gemini-config.js
+
+# Expo / Metro
+ZengeZur/civicwave/.expo/
+ZengeZur/civicwave/dist/
+ZengeZur/civicwave/web-build/
+ZengeZur/civicwave/expo-env.d.ts
+.metro-health-check*
+
+# Build artefacts / native
+/ios
+/android
+*.tsbuildinfo
+
+# Logs
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.log
+
+# Editor / tooling
+.vscode/
+.idea/
+.vercel/
+.claude/
+**/.claude/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini

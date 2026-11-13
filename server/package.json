@@ -1,0 +1,17 @@
+{
+  "name": "civicwave-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CivicWave server: stores citizen reports and their photos, and serves the command center website.",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "seed:demo": "node --disable-warning=ExperimentalWarning scripts/seed-demo.js",
+    "import:firebase": "node --disable-warning=ExperimentalWarning scripts/import-firebase.js"
+  }
+}

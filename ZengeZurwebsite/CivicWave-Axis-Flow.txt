@@ -1,0 +1,509 @@
+================================================================================
+CIVICWAVE — KOMANDA MƏRKƏZİ (TEAM COMMAND CENTER)
+Nərimanov Rayonu · Vətəndaş Müraciətlərinin İdarəetmə Paneli
+Complete Website Flow Documentation
+================================================================================
+
+This document explains how the CivicWave admin dashboard works, end to end.
+
+  • PART 1 — NON-TECHNICAL VERSION  (for managers, officials, judges)
+  • PART 2 — TECHNICAL VERSION      (for developers)
+
+The dashboard is the "back office" web app used by the local government
+(Nərimanov district, Baku) to receive, triage, assign, and resolve citizen
+reports about city problems (potholes, garbage, broken lights, flooding, etc.).
+Citizens submit these reports from a separate CivicWave mobile app; this website
+is where municipal staff manage them.
+
+
+################################################################################
+#                                                                              #
+#                       PART 1 — NON-TECHNICAL VERSION                         #
+#                                                                              #
+################################################################################
+
+--------------------------------------------------------------------------------
+1. THE BIG PICTURE — WHAT THIS WEBSITE IS FOR
+--------------------------------------------------------------------------------
+
+A citizen sees a problem in the street (e.g. an overflowing garbage bin),
+opens the CivicWave phone app, takes a photo, and submits it.
+
+Behind the scenes, an Artificial Intelligence (AI) looks at that photo and
+automatically figures out:
+  - WHAT the problem is        (category, e.g. "Cleaning & Waste")
+  - HOW serious it is          (severity: Low / Medium / High / Critical)
+  - WHICH department           should handle it
+  - HOW urgent it is           (a priority score from 0 to 100)
+  - ESTIMATED repair cost       (a rough guess in AZN / ₼)
+
+That report then appears INSTANTLY on this website, where government staff
+take over: they approve it, assign a field worker, the worker fixes it and
+uploads an "after" photo, the AI double-checks the fix, and the case is closed.
+The citizen gets points for a confirmed, useful report.
+
+In short, the website turns a phone photo into an organized, trackable
+municipal work order.
+
+--------------------------------------------------------------------------------
+2. WHO USES IT (THREE ROLES)
+--------------------------------------------------------------------------------
+
+You can switch roles from the card at the bottom-left of the sidebar. Each role
+sees a different set of menus and can do different things:
+
+  (A) DISTRICT MANAGER — "Rayon Meneceri" (Aysel Abbasova)
+      - Sees EVERYTHING across ALL departments.
+      - Can approve/reject reports, reassign them to any department,
+        review proof, close cases, export reports.
+      - Has access to all menus including Analytics, Departments, Audit.
+
+  (B) DEPARTMENT HEAD — "Departament Rəhbəri" (Rəşad Quliyev)
+      - Sees ONLY their own department's reports (e.g. Roads).
+      - Can approve, reassign within their department, review proof, close.
+      - Sees a smaller menu (no district-wide Departments/Audit panels).
+
+  (C) FIELD WORKER — "Sahə İşçisi" (Tural Əliyev)
+      - Sees ONLY the tasks assigned to them.
+      - Their job is to go fix the problem and upload before/after photos.
+      - Simple menu: My Tasks, Map, Settings.
+
+--------------------------------------------------------------------------------
+3. THE SCREEN LAYOUT (WHAT'S ALWAYS ON SCREEN)
+--------------------------------------------------------------------------------
+
+  - LEFT SIDEBAR: the CivicWave logo, the navigation menu (grouped into
+    "İdarəetmə / Management", "Analiz / Analysis", "Sistem / System"), and at
+    the bottom the role-switcher card showing who you are logged in as.
+    Some menu items show a small red number = how many items need attention.
+
+  - TOP BAR: a label + the page title on the left, and a search box on the
+    right. You can search by report ID, address, or keyword (press "/" to jump
+    to it). Searching automatically takes you to the list of reports.
+
+  - MAIN AREA: the content of whichever page you selected.
+
+  - TOAST MESSAGES: small confirmation pop-ups appear at the bottom whenever
+    you do something (e.g. "Report #7 approved").
+
+--------------------------------------------------------------------------------
+4. THE PAGES — WHAT EACH ONE SHOWS
+--------------------------------------------------------------------------------
+
+4.1  ÜMUMİ BAXIŞ (OVERVIEW / DASHBOARD HOME)
+     The "control room" summary. It shows:
+       - A row of KEY NUMBERS (KPIs): open reports, awaiting approval, in
+         progress, overdue, resolved this week, and average resolution time —
+         each with a small trend line and a "vs last week" change.
+       - SON MÜRACIƏTLƏR (Latest Reports): a live feed of the newest reports
+         with photo thumbnail, severity tag, category, and address.
+       - RİSK ALTINDA (At Risk): reports that are overdue or about to miss
+         their deadline, with how much time is left.
+       - KATEQORİYALAR ÜZRƏ (By Category): a bar breakdown of which problem
+         types are most common.
+       - DEPARTAMENT PERFORMANSI (only for the Manager): each department's
+         workload and SLA (service-level / on-time) percentage.
+
+4.2  CANLI XƏRİTƏ (LIVE MAP)
+     An interactive map of the district. Every report is a colored pin
+     (color = severity, icon = category). You can switch between "pins" and a
+     "heat" view. Clicking a pin (or a row in the side list) opens that
+     report's full detail. Critical problems show as bigger pins.
+
+4.3  SORĞU NÖVBƏSİ (REQUEST QUEUE)
+     The main working list — a sortable table of all reports you're allowed to
+     see. Each row shows: photo, title + ID + address, severity, status,
+     who it's assigned to, the AI confidence %, the priority score, and the
+     deadline. You can FILTER by severity, category, status, and department,
+     and SORT by any column. Overdue rows are marked with a red edge.
+     Click any row to open the full report.
+
+4.4  TAPŞIRIQLARIM (MY TASKS) — field worker only
+     A card view of the jobs assigned to that worker, sorted by deadline, each
+     with a countdown timer showing time remaining.
+
+4.5  ANALİTİKA (ANALYTICS)
+     A clean statistics dashboard:
+       - Four summary cards: total reports, resolved, average resolution time,
+         and SLA compliance (each with a +/- change badge).
+       - A TREND chart (smooth line) of daily report volume over the last days.
+       - A STATUS DISTRIBUTION donut chart (how many are pending / approved /
+         in progress / resolved / etc.).
+       - A CATEGORY breakdown and a KEY METRICS panel (avg approval time, avg
+         resolution time, SLA, reopen rate).
+
+4.6  DEPARTAMENTLƏR (DEPARTMENTS) — manager only
+     One card per department showing: number of staff, total reports, how many
+     are open, how many are overdue, and the team members.
+
+4.7  HESABATLAR (REPORTS / EXPORT)
+     For exporting data. Shows summary stat cards, a date-range selector
+     (this week / this month / custom), and two export options — Excel (CSV)
+     and PDF / Print — plus a live preview table of the rows that will be
+     exported. Filters from the Queue carry over.
+
+4.8  AUDİTOR MODULU (AUDITOR MODULE) — manager only, READ-ONLY
+     A watchdog view listing "anomalies": reopened cases, rejected reports, and
+     SLA violations. Nothing can be changed here — it's purely for oversight.
+
+4.9  PARAMETRLƏR (SETTINGS)
+     Shows your profile and access level, plus notification toggles (overdue
+     alerts, new-assignment alerts, weekly report, proof-approval alerts).
+
+--------------------------------------------------------------------------------
+5. OPENING A SINGLE REPORT (THE DETAIL PAGE)
+--------------------------------------------------------------------------------
+
+Clicking any report (from the feed, queue, map, etc.) opens a full detail page:
+
+  - The citizen's PHOTO of the problem.
+  - The AI ANALYSIS: a short written description of what the AI detected in the
+    photo, plus boxes for Category, Estimated Cost, Severity, and Confidence %.
+  - VƏTƏNDAŞ QEYDİ (Citizen Note): any text the citizen added (or "no note").
+  - YER (Location): the address, GPS coordinates, and a mini-map.
+  - HADİSƏLƏR XRONOLOGİYASI (Timeline): step-by-step history of the case —
+    submitted → AI analyzed → approved → assigned → in progress → proof
+    uploaded → resolved.
+  - On the right, an ACTION PANEL that changes depending on the report's status
+    and your role (see the lifecycle below).
+
+--------------------------------------------------------------------------------
+6. THE LIFECYCLE OF A REPORT (STEP BY STEP)
+--------------------------------------------------------------------------------
+
+  STEP 1 — SUBMITTED (Təsdiq gözləyir / Pending)
+     Citizen submits via the phone app. AI categorizes it. It lands in the
+     queue awaiting a manager/head decision.
+
+  STEP 2 — APPROVE or REJECT
+     Manager/Head opens it and either:
+       - APPROVES  → citizen earns points, case moves forward; or
+       - REJECTS   → marked as spam/invalid; or
+       - REASSIGNS → sends it to a different (correct) department.
+
+  STEP 3 — ASSIGNED & IN PROGRESS (Davam edir)
+     The report goes to a department and a field worker starts the work.
+
+  STEP 4 — PROOF UPLOADED (Sübut gözləyir)
+     The worker uploads BEFORE and AFTER photos as proof of the fix. This goes
+     to the supervisor for confirmation.
+
+  STEP 5 — AI FIX-CHECK + CLOSE (Həll edildi / Resolved)
+     When closing, the manager uploads the "after" photo. The AI compares it to
+     the original problem and gives a verdict: "fix successful" or "not enough"
+     with a confidence %. If the AI approves (or the manager manually overrides),
+     the case is CLOSED, the citizen is notified, and points are confirmed.
+
+     A closed case can be REOPENED if the problem comes back — these show up in
+     the Auditor module as anomalies.
+
+--------------------------------------------------------------------------------
+7. THE AI FEATURES (IN PLAIN TERMS)
+--------------------------------------------------------------------------------
+
+  - INTAKE AI (on the mobile/citizen side): reads the submitted photo and fills
+    in category, severity, department, priority score, cost estimate, and a
+    written explanation. The dashboard displays these results.
+
+  - FIX-VERIFICATION AI (on this dashboard): when a worker/manager uploads the
+    "after" photo, the system sends it to Google's Gemini AI along with the
+    original problem description and asks: "Is this actually fixed?" Gemini
+    replies yes/no with a confidence score and a reason. This prevents closing
+    cases that aren't really resolved.
+
+--------------------------------------------------------------------------------
+8. LIVE DATA & DEMO MODE
+--------------------------------------------------------------------------------
+
+  - When connected to the government's database (Firebase), the dashboard shows
+    REAL reports submitted from the phone app and updates automatically every
+    few seconds — no need to refresh.
+  - When not connected, it runs in DEMO MODE with a small sample dataset so the
+    interface still works for presentations.
+  - All actions (approve, reassign, close, etc.) are written back to the
+    database so the phone app and dashboard stay in sync.
+
+
+################################################################################
+#                                                                              #
+#                         PART 2 — TECHNICAL VERSION                           #
+#                                                                              #
+################################################################################
+
+--------------------------------------------------------------------------------
+A. TECH STACK & ARCHITECTURE
+--------------------------------------------------------------------------------
+
+  - Pure front-end SPA: vanilla HTML + CSS + JavaScript. No framework, no build
+    step, no bundler. Runs from static files (served here via python http.server).
+  - Rendering model: a single #view container is re-rendered by template-literal
+    functions on every state change (string-building, innerHTML swap). There is
+    no virtual DOM; `render()` is the central re-render entry point.
+  - Map: Leaflet 1.9.4 with the CARTO "light_all" basemap (loaded from CDN).
+  - Fonts: Inter (Google Fonts). JetBrains Mono was removed; the legacy `--mono`
+    CSS token now resolves to Inter, with `font-variant-numeric:tabular-nums`
+    for figure alignment.
+  - Backend (optional): Firebase Realtime Database + Firebase Storage, accessed
+    via REST (no Firebase SDK / no ES modules) for robustness across file://,
+    http, and CDN/cache issues.
+  - AI: Google Gemini (default model "gemini-2.5-flash") via the
+    generativelanguage REST endpoint, called directly from the browser.
+  - Language/locale: Azerbaijani (az-Latn) UI strings throughout.
+
+  FILE MAP
+    index.html          App shell: sidebar, topbar, #view, #toasts. Loads fonts,
+                        Leaflet, then the scripts (cache-busted with ?v=N).
+    styles.css          Full design system: CSS custom properties (:root tokens
+                        for color/space/shadow/fonts), component styles, charts,
+                        responsive breakpoints.
+    app.js              The application: icons, domain data (CAT/SEV/ST/ROLES),
+                        demo seed, helpers, all view renderers, detail panel,
+                        actions, event delegation, and the Firebase bridge
+                        (window.CIVIC.*).
+    gemini-config.js    { apiKey, model } for Gemini.
+    gemini.js           window.CivicGemini.verifyFix(report, base64, mime).
+    firebase-config.js  Firebase project config + FIREBASE_ENABLED flag.
+    firebase.js         window.CIVIC_FB.* — REST polling load, patch, and
+                        closeWithPhoto (Storage upload + DB write).
+
+  SCRIPT LOAD ORDER (in index.html):
+    leaflet → firebase-config → gemini-config → gemini → app → firebase
+    (app.js defines window.CIVIC.* before firebase.js starts polling it.)
+
+--------------------------------------------------------------------------------
+B. STATE MODEL (app.js `state`)
+--------------------------------------------------------------------------------
+
+  state = {
+    role,            // 'manager' | 'head' | 'worker'
+    view,            // current view key, or 'detail'
+    detailReturn,    // view to return to after closing a detail
+    sel,             // currently opened report object (detail)
+    proof,           // { before, after } data-URLs for worker proof upload
+    fix,             // { url, file, verdict, verifying, error, manual } close flow
+    filters,         // { sev, cat, status, dept, q }
+    sort,            // { key, dir }
+    mapLayer,        // 'pins' | 'heat'
+  }
+
+  Re-render is always via render(). A wrapper around render() also keeps the
+  queue count (#qCount) in sync after each render.
+
+--------------------------------------------------------------------------------
+C. DOMAIN MODEL (constants in app.js)
+--------------------------------------------------------------------------------
+
+  CAT      Categories keyed by mobile-app categoryId (roads, water, sanitation,
+           greenery, lighting, facades, signage, parks, construction, seasonal,
+           other). Each has: name, dept, urgency weight, icon, and a derived
+           duotone palette via mkpal(hex) (mix() toward white/black).
+  CATALIAS Maps legacy demo keys (road/clean/green/light/infra) → real ids.
+  SEV      Severity levels: low / mid / high / crit (name + css class + weight).
+  ST       Status lifecycle with a numeric `step`:
+             pending(0) → approved(1) → progress(2) → proof(3) → resolved(4),
+             rejected(-1).
+  ST_DB    Dashboard status → value written back to the DB
+             (progress/proof both map to 'in_progress').
+  DEPTS    Unique department list derived from CAT.
+  ROLES    Per-role: name, title, init, dept, `can` capability flags
+           (approve, reassign, proof, close, export, allDept, uploadProof),
+           and `nav` (allowed view keys).
+  SEVHEX   Severity → hex used for map pins / mini-map.
+
+  REPORTS  The active in-memory array of report objects. Each report (R(...))
+           has: id, docId (Firebase key), title, cat, sev, status, worker,
+           created, deadline, conf (AI confidence), score (priority), cost,
+           lat/lng, addr, note, reporter, aiExplanation, reopened, plus
+           proof/fixed-photo fields added during the lifecycle.
+
+--------------------------------------------------------------------------------
+D. RENDER PIPELINE
+--------------------------------------------------------------------------------
+
+  render():
+    1. add the .view-enter animation class.
+    2. if state.view === 'detail': set topbar text, renderNav(), inject
+       viewDetail(), initMiniMap(), reset scroll, return.
+    3. else: look up NAVMETA[view] for eyebrow + title, renderNav(), then call
+       the matching view function and inject its HTML:
+         overview→viewOverview, map→viewMap (then initMap()), queue→viewQueue,
+         tasks→viewTasks, analytics→viewAnalytics, dept→viewDept,
+         reports→viewReports, audit→viewAudit, settings→viewSettings.
+
+  renderNav():  builds the sidebar from NAVGROUPS, filtered by ROLES[role].nav;
+                adds count/alert badges (pending count on queue, overdue count
+                on map, open count on tasks).
+  renderRole(): fills the role-switcher card and the role menu.
+
+  Data scoping:
+    scopedReports() — worker: only their assigned; head: only their dept;
+                      manager: all.
+    filtered()      — applies state.filters to scopedReports() then sorts by
+                      state.sort (deadline/age/score/conf/field).
+
+--------------------------------------------------------------------------------
+E. KEY HELPERS / CHART PRIMITIVES (all inline SVG, no chart lib)
+--------------------------------------------------------------------------------
+
+  photo(r, which)     <img> from Firebase Storage URL, else a generated SVG
+                      thumbnail (thumb()).
+  ring(pct,...)       SVG donut progress ring (AI confidence indicators).
+  trendline(data,hex) full-bleed KPI sparkline (area + line).
+  smoothPath(pts)     Catmull-Rom-style cubic path generator.
+  areaChart(data)     Analytics trend chart (gridlines + gradient area + line
+                      + end dot), viewBox 600x210, non-scaling stroke.
+  donut(segs,center)  Analytics status donut with center label.
+  sevTag / statusTag / catIcon / glyph / initials / azn / ageStr / deadlineStr /
+  fmtDate / esc       formatting + escaping helpers.
+
+--------------------------------------------------------------------------------
+F. EVENT HANDLING (delegated on document)
+--------------------------------------------------------------------------------
+
+  A single click listener uses closest([data-*]) delegation:
+    [data-nav]      → go(view)
+    [data-open]     → openDetail(id)  (with optional [data-fly] map flyTo)
+    [data-proof]    → openDetail(id)  (stops propagation)
+    [data-close]    → closeDetail()
+    [data-act]      → handleAction(act)
+    [data-fsev]     → set severity filter
+    [data-maplayer] → switch pins/heat
+    [data-export]   → 'csv' → exportCSV(); else window.print()
+    #roleCard       → toggle role menu
+    [data-role]     → switch role (resets filters, jumps to role's first view)
+    [data-sort]     → toggle/sort column
+
+  change listener: filter selects ([data-fcat/fstatus/fdept]) and file inputs
+                   ([data-file] proof slots, [data-fixfile] fix photo →
+                   FileReader → data-URL → state).
+  dblclick:        dropzone demo-fill with a generated SVG (presentation aid).
+  input:           #globalSearch (200ms debounce) → sets q filter and routes to
+                   queue/tasks.
+  keydown:         "/" focuses search; "Escape" closes the detail / role menu.
+
+--------------------------------------------------------------------------------
+G. ACTIONS (state transitions)  — handleAction(act) on state.sel
+--------------------------------------------------------------------------------
+
+  approve       → setStatus 'approved'   (+ DB patch status)
+  reject        → setStatus 'rejected'
+  reassign      → pickDept(r): modal of departments (scoped by can.reassign:
+                  'dept' vs 'any') → sets r.dept + DB patch {department}.
+  submitProof   → copies state.proof.before/after → r; setStatus 'proof'.
+  approveProof  → setStatus 'resolved'.
+  rejectProof   → setStatus 'progress'  (sends back).
+  verifyFix     → calls Gemini (see H).
+  overrideFix   → state.fix.manual = true (manual approval path).
+  closeCase     → see H.
+
+  setStatus(r, st, msg, kind): mutates r.status, toasts, then writes BOTH
+                  /status (numeric flag) and /statusText (lifecycle text) to the
+                  DB via fbPatch, then render.
+  fbPatch(r,obj): only writes if Firebase enabled AND r.docId exists.
+
+  DB STATUS FIELDS (per record, keyed by the record name):
+    /status      NUMBER  → 1 = müraciət təsdiqlənib (approved and beyond),
+                           0 = pending or rejected. Consumed by the MOBILE app
+                           to show "approved".  approvedFlag(st) computes it:
+                           1 for approved/progress/proof/resolved, else 0.
+    /statusText  STRING  → the dashboard's lifecycle value
+                           (pending/approved/in_progress/proof/resolved/rejected),
+                           via ST_DB. The dashboard reads this back (lifecycleOf()
+                           in mapDoc) and never relies on the numeric /status.
+    Record keys: the dashboard uses each /reports/<key> name as the report id and
+    patches status back to that same key, so /status always maps to its
+    application. Keys are assigned at CREATION (mobile app). For 1,2,3… keys the
+    mobile app should allocate from a counter (e.g. /reports/counters/lastId via a
+    transaction) — the dashboard already ignores a "counters" node when reading.
+
+--------------------------------------------------------------------------------
+H. AI FIX-VERIFICATION + CASE CLOSE
+--------------------------------------------------------------------------------
+
+  verifyFix() (app.js → gemini.js):
+    - requires state.fix.url (the uploaded "after" image as data-URL) and a
+      Gemini key (window.CivicGemini.enabled).
+    - extracts base64 + mime, calls CivicGemini.verifyFix(report, base64, mime).
+    - gemini.js POSTs {prompt + inline_data image} to
+      generativelanguage…/{model}:generateContent?key=…
+      with temperature 0.1 and responseMimeType application/json.
+    - prompt (in Azerbaijani) describes the original problem and asks STRICT
+      JSON: {resolved:boolean, confidence:number, reason:string}.
+    - parseJson() strips ``` fences and slices the {...} object.
+    - returns { approved: resolved && confidence>=70, resolved, confidence,
+      reason, raw }. The verdict card renders wait/ok/no/err states.
+
+  closeCase() (app.js → firebase.js):
+    - if Firebase + docId: CIVIC_FB.closeWithPhoto(docId, file|dataURL, byName,
+      verdict): uploads the photo to Storage (REST POST to
+      firebasestorage…/o?name=…), builds the download URL with downloadTokens,
+      then PATCHes /reports/<id> with {status:'resolved', fixedImageUrl,
+      fixedStoragePath, resolvedBy, resolvedAt, fixVerdict}.
+    - else (demo): keeps the local data-URL as fixedImageUrl.
+    - sets r.status='resolved', r.resolvedBy, r.fixVerdict; clears state.fix.
+
+  Close is gated: the "İşi Bağla" button is enabled only when the AI verdict is
+  approved OR the manager used the manual override.
+
+--------------------------------------------------------------------------------
+I. FIREBASE BRIDGE (REST, polling)
+--------------------------------------------------------------------------------
+
+  Enabled when FIREBASE_ENABLED===true and cfg.databaseURL is set.
+
+  firebase.js:
+    - load(): GET {BASE}/{NODE}.json?ts=… (cache:'no-store'). Computes a
+      JSON signature; if unchanged, skips re-render (cheap diff). Otherwise maps
+      each child via window.CIVIC.mapDoc(key, value) → window.CIVIC.ingestLive.
+      Skips the "counters" node. Polls every 4000 ms (near real-time).
+    - patch(id,obj): PATCH a report node, then load().
+    - closeWithPhoto(...): Storage upload + DB patch (see H).
+
+  app.js Firebase bridge (window.CIVIC):
+    - normCat()/normSev()/normStatus(): normalize free-text / multilingual DB
+      values to internal keys (handles AZ + EN synonyms and numeric codes).
+    - mapDoc(): converts a raw DB record into the internal report shape.
+    - ingestLive(rows): replaces REPORTS, recomputes, setConn('live'|'empty'),
+      re-renders. Falls back to DEMO_SEED + setConn('empty') when DB is empty.
+    - setConn(kind,n): (the topbar status chip was removed from the UI, so this
+      now no-ops on the missing element via an early `if(!el) return`).
+
+--------------------------------------------------------------------------------
+J. EXPORT
+--------------------------------------------------------------------------------
+
+  exportCSV(): uses filtered() (or scopedReports() if no filter), builds a CSV
+  with a UTF-8 BOM (Excel-friendly), columns: ID, Başlıq, Kateqoriya, Ciddilik,
+  Status, Departament, Təyinat, Prioritet, Etibarlılıq, Xərc, Ünvan, Son tarix;
+  triggers a Blob download (civicwave-hesabat.csv).
+  PDF / Print option simply calls window.print() (print-to-PDF).
+
+--------------------------------------------------------------------------------
+K. DESIGN SYSTEM NOTES (styles.css)
+--------------------------------------------------------------------------------
+
+  - :root tokens: clean cool-white surfaces (--canvas #F7F8FA, --surface #FFF),
+    near-black ink (--ink #14161A) and a gray ramp (ink-2..ink-4), hairline
+    borders, neutral shadows, teal brand (--teal #0F5057) + vermilion accent,
+    severity + status hue tokens, radius/shadow scales.
+  - Typography: Inter for body/headings/data; tabular numerals globally.
+  - Components: .ledger KPI strip, .card, .table queue, .stat + .chartcard +
+    .donut analytics, .expopt export cards, .riskrow, slide-over/full-page
+    .detail, .timeline, .toast, map pins, Firebase/AI verdict cards.
+  - Responsive: breakpoints at 1280 / 1180 / 900 / 560 px; sidebar collapses
+    under 900px.
+
+--------------------------------------------------------------------------------
+L. CAVEATS / DEMO BEHAVIOR
+--------------------------------------------------------------------------------
+
+  - The demo seed is small (~5 reports); Analytics trend/delta numbers are
+    illustrative placeholders, not computed from the live count.
+  - All API keys (Gemini, Firebase) are client-side — acceptable for a hackathon
+    demo, but a production build should proxy these through a server.
+  - Assets are cache-busted with ?v=N in index.html; bump N after edits and
+    hard-refresh (Ctrl+F5).
+
+================================================================================
+END OF DOCUMENT
+================================================================================
